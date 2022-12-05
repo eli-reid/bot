@@ -5,6 +5,7 @@ from .MessageHandler import Message
 from .TwitchChatInterface import TCI
 from .Builtins import commandBase
 from .Builtins.quote import quote
+from .Builtins.userCommands import command
 
 def parser(message: Message, tci: TCI):
     if message.text.startswith("!"):

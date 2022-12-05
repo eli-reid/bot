@@ -134,7 +134,7 @@ class TCI(object):
                     event, msg = self._messageHandler.handleMessage(messagePart)
                     if event is not None:
                         self.event.emit(self, event, msg)
-        print("GET MESSAGES ENDED")
+       
 
     def _emptyMsgQ(self)->None:
         """
@@ -146,7 +146,7 @@ class TCI(object):
             if not self._sendQ.empty():
                 self._server.send(self._sendQ.get())
                 time.sleep(1)
-        print("SEND MESSAGES ENDED")
+        
 
     def _login(self)->None:
         """[summary]
@@ -165,7 +165,7 @@ class TCI(object):
         :param message: irc message
         :type message: Message
         """
-        print(len(self._channels))
+        print(f"Currently in {len(self._channels)} rooms")
         if self._channels is not None:
             self.join(self._channels) 
     

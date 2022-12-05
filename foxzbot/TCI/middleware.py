@@ -13,19 +13,13 @@ settings={
 tci = TwitchChatInterface.TCI(settings)
 
 def handleConnect(sender, obj):
-    print ("connected!",obj)
+    print ("connected!")
 
 def handleMessage(sender, message):
-    
-    print("[{0}] {1}: {2} ".format(message.channel,message.username,message.text))
+    #print("[{0}] {1}: {2} ".format(message.channel,message.username,message.text))
     parser(message, sender)
 
-def handleReceved(sender, message):
-    print(message)
-
 def startTCI():
-  tci.onNotice(handleReceved)
-  tci.onReceived(handleReceved)
   tci.onConnected(handleConnect)
   tci.onMessage(handleMessage)
   try:

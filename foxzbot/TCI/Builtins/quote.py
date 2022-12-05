@@ -6,19 +6,12 @@ from .commandBase import commandBase
 
 class quote(commandBase):
     def __init__(self, tci:TCI, message: Message) -> None:
-        super().__init__(tci, message)
         self.quotesObj = apps.get_model("Quotes","Quotes")
-        self.data = self.message.text.replace("!quote ", "")
         self.ids = list(self.quotesObj.objects.all().values_list('pk',flat=True))
-        action = self.message.text.split(" ")[1] if len(self.message.text.split(" "))>1 else None
-        self.data = self.message.text.replace("!quote ", "")
-        if action in self.__dir__():
-            self.data = self.data.replace(f"{action} ","")
-            getattr(self,action)()
-        else:
-           self.printQuote() 
+        super().__init__(tci, message, "!quote")
+       
         
-    def printQuote(self):
+    def print(self):
         if self.data is not None and self.data.isnumeric() and int(self.data) in self.ids:
             quoteobj = self.quotesObj.objects.get(id=self.data)
         else:
