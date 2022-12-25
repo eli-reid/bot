@@ -1,7 +1,7 @@
 import asyncio
 import json
 import websockets
-from websockets import connection
+from websockets.server import serve
 from django.urls import resolve
 from TCI.middleware import tci
 def EventData():
@@ -49,17 +49,14 @@ def EventData():
 
 async def wsMessageHandler(websocket):
     name = await websocket.recv()
-    
-    print(f"<<< {name}")
-    greeting = f"Hello {name}!"
+    tci.sendMessage('edog0049a',"test from websocket land")
     test = {"event":"EVENT_START","data":EventData()}
-    #await websocket.send(greeting)
     await websocket.send(json.dumps(test))
     print(websocket.id)
     print(websocket.path)
-    print(f">>> {greeting}")
 
 async def ws():
     await websockets.serve(wsMessageHandler, "localhost", 8001)
-   c
+   
+   
 

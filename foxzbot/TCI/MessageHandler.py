@@ -1,7 +1,6 @@
 from dataclasses import dataclass, field
 from typing import Dict, List
-class InvalidMessageError(Exception):
-    pass
+from .TCIErrors import InvalidMessageError
 
 @dataclass
 class RoomState:
@@ -450,7 +449,6 @@ class MessageHandler():
                                             ":tmi.twitch.tv NOTICE * :Login authentication failed", \
                                             ":tmi.twitch.tv NOTICE * :Error logging in", \
                                             ":tmi.twitch.tv NOTICE * :Invalid NICK" \
-
                                             )
 
     def handleMessage(self, IrcMessage: str)->tuple:

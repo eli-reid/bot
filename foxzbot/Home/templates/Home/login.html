@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container p-2" style="align-content:center; width: 300px;">
+<form method='post'>{% csrf_token %}
+    {{form.as_p}}
+    <input type='submit' class="btn btn-secondary"/>
+</form>
+</div>
+
+{% endblock %}
