@@ -5,12 +5,15 @@ from .MessageHandler import Message
 from .TwitchChatInterface import TCI
 from .Builtins import commandBase
 from .Builtins.quote import quote
-from .Builtins.userCommands import command
+from .Builtins.userCommands import userCommand
+from .Builtins.command import command
+
 
 def parser(message: Message, tci: TCI):
     if message.text.startswith("!"):
-        command = message.text.split(" ")[0][1:]
-        if command not in globals():
-            print ("not built command")
+        commandText = message.text.split(" ")[0][1:]
+        if commandText not in globals():
+            cmd = command(tci,message)
+            
         else:
-             globals()[command](tci, message)
+             globals()[commandText](tci, message)
