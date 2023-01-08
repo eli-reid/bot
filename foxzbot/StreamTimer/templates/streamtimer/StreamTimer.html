@@ -12,8 +12,6 @@
 	</head>
     <script>
         $(document).ready(() => {
-            
-            socket.onopen = (sck, ent) => {
             let wsdata={};
             let datas ={}
             {% for item in streamtimer%}
@@ -29,14 +27,11 @@
             wsdata["EndMsg"] = datas['EndMsg']
             let event =  {"event":"EVENT_START","data": JSON.stringify(wsdata)};
             socket.send(JSON.stringify({"EVENT":1, "data": JSON.stringify(event)}));
-        };
         });
     </script>
     <body>
         <div id="timer">
             <span id="displayMsg"></span><span id="hours"></span><span id="minutes"></span><span id="seconds"></span>
-        </div>
-        <!--<div id="debug"></div>--!>
-        
+        </div>       
     </body>
 </html>
