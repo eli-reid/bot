@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}   
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="{%static 'js/streamtimercontrol.js'%}"></script>
+<script>
+    let data={};
+    {% for item in streamtimer%}
+        {% if item.app == 'Stream Timer' %}
+            data["{{item.key}}"]="{{item.value}}"
+        {% endif %}
+    {% endfor %}
+    $(document).ready(function () {
+        document.getElementById("time").value = data["time"]
+        document.getElementById("display").value = data["DisplayMsg"]
+    });
+</script>
+
+<div>
+    <h1 style="text-align: center;">End of Stream Timer</h1>
+
+        
+    <form action="javascript:void(0);">
+        <div class="p-2"><button onclick="openTimer()">view timer</button> </div>
+        <div class="p-2">
+            <input type="time" id="time" value="">
+        </div>
+        <div class="p-2">
+            <input type="text" id="display" value="" >
+        </div>
+
+        <div class="p-2">
+            <input type="button" id="start" onclick="startt()" value="Start Timer">
+            <input type="button" id="stop" onclick="stopt()" value="Stop Timer">
+        </div>
+        <div class="p-2">
+            <input type="button" id="hour" onclick="addHour()" value="Add Hour">
+            <input type="button" id="min" onclick="addmin()" value="Add 15 Minutes">
+        </div>
+    </form>
+    <script>
+        function openTimer() {
+          var myWindow = window.open("{% url 'StreamTimer.View' %} ", "", "width=500,height=30");
+        }
+        </script>
+</div>
+<script>
+    moveActive("endoftimer")
+</script>
+{% endblock %}

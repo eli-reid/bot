@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="contianer">
+<div class="row">
+    <div class="col"><h1 class="my-5">Commands</h1></div>
+    <div class="col"><a href="{% url 'command.add' %}" class="btn btn-primary my-5">Add</a></div>
+</div>
+<div class="row p-1 "> 
+    <div class="col-2"> 
+        <h2>Id</h2>
+    </div>
+    <div class="col-2" >
+        <h2>Command</h2>
+    </div>
+    <div class="col-1">
+    </div>
+    </div>
+    {% for command in commands %}
+        <div class="row p-1 border-b g-1"> 
+            <div class="col-2" >
+                {{command.id}}
+            </div>
+            <div class="col-2"> 
+                <a href="{% url 'command.detail' pk=command.id%}" class="text-dark text-decoration-non">
+                    {{command.command}}
+                </a>
+            </div>
+            <div class="col-1">
+                <a href="{% url 'command.edit' pk=command.id%}" class="text-dark text-decoration-non">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                <a href="{% url 'command.delete' pk=command.id%}" class="text-dark text-decoration-non">
+                    <i class="fa-solid fa-trash-can"></i>
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>    
+<script>
+    moveActive("commands")
+</script>
+{% endblock %}

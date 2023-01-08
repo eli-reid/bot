@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="contianer">
+<div class="row">
+    <div class="col"><h1 class="my-5">Quotes</h1></div>
+    <div class="col"><a href="{% url 'quote.add' %}" class="btn btn-primary my-5">Add</a></div>
+</div>
+<div class="row p-1 "> 
+    <div class="col-2"> 
+        <h2>Created</h2>
+    </div>
+    <div class="col-2" >
+        <h2>Quote</h2>
+    </div>
+    <div class="col-1">
+    </div>
+    </div>
+    {% for quote in Quotes %}
+        <div class="row p-1 border-b g-1"> 
+            <div class="col-2" >
+                {{quote.created}}
+            </div>
+            <div class="col-2"> 
+                <a href="{% url 'quote.detail' pk=quote.id%}" class="text-dark text-decoration-non">
+                    {{quote.quote}}
+                </a>
+            </div>
+            <div class="col-1">
+                <a href="{% url 'quote.edit' pk=quote.id%}" class="text-dark text-decoration-non p-1">
+                    <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="{% url 'quote.delete' pk=quote.id%}" class="text-dark text-decoration-non p-1">
+                    <i class="fa-solid fa-trash-can"></i></a>
+            </div>
+        </div>
+    {% endfor %}
+</div>    
+<script>
+    moveActive("quotes")
+</script>
+{% endblock %}

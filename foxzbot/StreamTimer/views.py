@@ -1,7 +1,17 @@
 from django.shortcuts import render
 from TCI.middleware import tci
-import websockets
+from django.views.generic import TemplateView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.apps import apps
 
-async def wsTimerHandler(websocket):
-    #TODO: add timer event messages
-    pass
+class StreamTimerSettingsView(LoginRequiredMixin,ListView):
+    template_name = "streamtimer/index.html"
+    settings = apps.get_app_config('Home').get_model('Settings')
+    model = settings
+    context_object_name = "streamtimer"
+
+class StreamTimerView(ListView):
+    template_name="streamtimer/StreamTimer.html"
+    settings = apps.get_app_config('Home').get_model('Settings')
+    model = settings
+    context_object_name = "streamtimer"

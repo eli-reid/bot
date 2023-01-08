@@ -1,10 +1,25 @@
-{% extends 'base.html' %}
-{% block content %}
-<div class="container p-2" style="align-content:center; width: 300px;">
-<form method='post'>{% csrf_token %}
-    {{form.as_p}}
-    <input type='submit' class="btn btn-secondary"/>
-</form>
-</div>
-
-{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="eng">
+    <head>
+        <title>FoxzBot</title>
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/base.js' %}"></script>
+    </head>
+        <body class="bg_dark">
+        <main>
+            <header><h1 style="text-align:center">Fox-Z-Bot</h1></header>
+            <div class="container p-2 border" style="align-content:center; width: 300px;">
+            <div style="text-align: center;"><h3>Login</h3></div>
+            <form method='post'>{% csrf_token %}
+                {{form.as_p}}
+                <input type='submit' class="btn btn-secondary"/>
+            </form>
+            </div>
+        </main> 
+        </body>
+            </html> 

@@ -1,5 +1,5 @@
 from . import TwitchChatInterface
-from .models import parser
+from .Parser import parser
 
 settings={
   "server": "irc.chat.twitch.tv",
@@ -19,10 +19,11 @@ def handleMessage(sender, message):
     #print("[{0}] {1}: {2} ".format(message.channel,message.username,message.text))
     parser(message, sender)
 
-def startTCI():
+def StartTciClient():
   tci.onConnected(handleConnect)
   tci.onMessage(handleMessage)
   try:
     tci.start()
   except TwitchChatInterface.InvalidLoginError:
     print("Invalid Login")
+ 

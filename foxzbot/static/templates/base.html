@@ -1,27 +1,102 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="eng">
     <head>
         <title>FoxzBot</title>
-        <link href="/static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-       <script src="/static/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
+        <link href="{% static 'fontawesomefree/css/solid.css' %}" rel="stylesheet" type="text/css">
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/base.js' %}"></script>
     </head>
-      <body>
-        <nav class='navbar navbar-dark bg-dark'> 
-            <div class = 'ms-left'> 
-                <a href="{% url 'home'%}" class="btn btn-outline-light me-1">Home</a>
-            </div>
-            <div class='ms-auto'>
+    <script>
+        function moveActive(id){
+            document.getElementById("home").classList.remove("active")
+            document.getElementById("settings").classList.remove("active")
+            document.getElementById("commands").classList.remove("active")
+            document.getElementById("quotes").classList.remove("active")
+            document.getElementById("endoftimer").classList.remove("active")
+            document.getElementById("notifications").classList.remove("active")
+            document.getElementById("users").classList.remove("active")
+            document.getElementById(id).classList.add("active")
+        }
+    </script>
+        <body>
+        <main>
+        <!--Main Navigation-->
+        <div class="row p-0">
+            <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style=" width: 280px; height:97vh;">
+                <a href="{% url 'home' %}" id='title' class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                <span class="fs-4 "><i class="fa-solid fa-robot"></i><b class="ps-2">Fox-Z-Bot</b></span>
+                </a>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" id="home" class="nav-link text-white" aria-current="page">
+                    <i class="fa-regular fa-house ps-2"></i>
+                    Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'settings' %}" id="settings" class="nav-link text-white">
+                    <i class="fa-regular fa-gears ps-2"></i>
+                    Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'command.list' %}" id="commands" class="nav-link text-white">
+                    <i class="fa-regular fa-skull-crossbones ps-2"></i>
+                    Commands
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'quotes.list'%}" id="quotes" class="nav-link text-white">
+                        <i class="fa-regular fa-horse ps-2"></i>
+                    Quotes
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'StreamTimer.Control'%}" id="endoftimer" class="nav-link text-white">
+                    <i class="fa-solid fa-rainbow ps-2"></i>
+                    End Of Stream Timer
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="notifications" class="nav-link text-white">
+                        <i class="fa-regular fa-comment-dollar ps-2"></i>
+                    Notifications
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="users" class="nav-link text-white">
+                        <i class="fa-regular fa-user-astronaut ps-2"></i>
+                    Users
+                    </a>
+                </li>
+                </ul>
+                <hr>
                 {% if user.is_authenticated %}
-                <a href="{% url 'logout'%}" class="btn btn-outline-light me-1">Logout</a>
+                <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <strong><i class="fa-regular fa-user ps-2"> </i> {{user.username}}</strong>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'logout'%}">Sign out</a></li>
+                </ul>
+                </div>
                 {% else %}
-                <a href="{% url 'login'%}" class="btn btn-outline-light me-1">Login</a>
+                <a href="{% url 'login'%}" class="nav-link text-white"><i class="fa-regular fa-user"></i> Login</a>
                 {% endif %}
             </div>
-        </nav>
-        <div class="sidebar">
-            
+            <div class="col-lg">
+                {% block content %}   
+                {% endblock %}
+            </div>
         </div>
-        {% block content %}   
-        {% endblock %}
+    </main>
+  
     </body>
 </html>
