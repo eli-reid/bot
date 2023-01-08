@@ -11,7 +11,7 @@ class StreamTimerSettingsView(LoginRequiredMixin,ListView):
     context_object_name = "streamtimer"
 
 class StreamTimerView(ListView):
-    template_name="streamtimer/StreamTimer.html"
+    template_name="streamtimer/streamTimer.html"
     settings = apps.get_app_config('Home').get_model('Settings')
     model = settings
     context_object_name = "streamtimer"
