@@ -1,23 +1,32 @@
-
+from typing import Any, Optional
 from django.apps import AppConfig, apps
-from django.db import models
+
 class TwitchapiConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'TwitchAPI'
 
-    def ready(self) -> None:
+    def __init__(self, app_name: str, app_module: Optional[Any]) -> None:
         self.displayName = 'Twitch API'
+        self._settings:list[dict] =[
+            {'key':'expires', 'value':'', 'readOnly':False, 'visible':False},
+            {'key':'token_type', 'value':'', 'readOnly':False, 'visible':False},
+            {'key':'access_token', 'value':'', 'readOnly':False, 'visible':False},
+            {'key':'refresh_token', 'value':'', 'readOnly':False, 'visible':False},
+            {'key':'scope', 'value':'', 'readOnly':False, 'visible':False}
+        ]
+        super().__init__(app_name, app_module)
+
+    def ready(self) -> None:
         self.settingsObj = apps.get_app_config('Home').get_model('Settings')
-        if self.settingsObj.objects.filter(app=self.displayName).count()<1:
-            self.load_default_settings()
+        self.load_default_settings()
         return super().ready()
 
     def load_default_settings(self):
-        records: list[models.Model]=[]
-        records.append (self.settingsObj(app=self.displayName, key='expires', value='', readOnly = True, visible = False))
-        records.append (self.settingsObj(app=self.displayName, key='token_type', value='', readOnly = True, visible = False))
-        records.append (self.settingsObj(app=self.displayName, key='access_token', value='', readOnly = True, visible = False))
-        records.append (self.settingsObj(app=self.displayName, key='refresh_token', value='', readOnly = True, visible = False))
-        records.append (self.settingsObj(app=self.displayName, key='scope', value='', readOnly = True, visible = False))
-        for record in records:
-            record.save()
+        for setting in self._settings:
+            obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
+            
+    def reset_default_settings(self):
+        for setting in self._settings:
+            update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
+            update["value"] = setting.get('value')
+            update.save()
