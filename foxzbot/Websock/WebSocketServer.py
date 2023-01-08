@@ -1,6 +1,6 @@
 import json
 from threading import Thread
-from types import NoneType
+from typing import Optional
 import websockets
 import asyncio
 from websockets.server import serve
@@ -41,7 +41,7 @@ class WebSocketServer:
     def __runner(self):
         asyncio.run(self.__server())
 
-    def run(self, url:str or NoneType=None, port:int or NoneType =None):
+    def run(self, url:Optional[str]=None, port:Optional[int]=None):
         self.__url: str = url if url is not None else self.__url
         self.__port: int = port if port is not None else self.__port
         newthread = Thread(target=self.__runner, daemon=True)
