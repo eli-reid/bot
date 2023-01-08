@@ -9,11 +9,10 @@ class command(commandBase):
 
     def __init__(self, tci: TCI, message: Message) -> None:
         self._commandObj: Model = apps.get_model("Commands","Command")
-        self._commandlist: list = list(self.commandObj.objects.all().values_list('command', flat=True))
+        self._commandlist: list = list(self._commandObj.objects.all().values_list('command', flat=True))
         super().__init__(tci, message, "!command")
 
     def print(self) -> None:
-
         self.tci.sendMessage(self.message.channel,"command worked")
 
     def _parseCommand(self) -> None:

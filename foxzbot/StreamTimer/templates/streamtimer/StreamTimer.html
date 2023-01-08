@@ -1,20 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head lang="en">
 			<meta charset="UTF-8">
 			<title>Timer Overlay</title>
             <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Abel" />
-            <link rel="stylesheet" type="text/css" href="./scripts/style.css">
+            <link rel="stylesheet" type="text/css" href="{% static 'css/Streamtimer.css'%}">
 			<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-			<script src="./scripts/streamtimer.js"></script>
+			<script src="{% static 'js/streamtimer.js'%}"></script>
 			<script type="text/javascript" script-name="bangers" src="http://use.edgefonts.net/bangers.js"></script>
 	</head>
+    <script>
+        $(document).ready(() => {
+            
+            socket.onopen = (sck, ent) => {
+            let wsdata={};
+            let datas ={}
+            {% for item in streamtimer%}
+                {% if item.app == 'Stream Timer' %}
+                    datas["{{item.key}}"]="{{item.value}}"
+                {% endif %}
+            {% endfor %}
+            console.log (datas)
+            let timesplit = datas['time'].split(':');
+            wsdata["Hr"] = timesplit[0];
+            wsdata["Min"] = timesplit[1];
+            wsdata["DisplayMsg"] = datas['DisplayMsg']
+            wsdata["EndMsg"] = datas['EndMsg']
+            let event =  {"event":"EVENT_START","data": JSON.stringify(wsdata)};
+            socket.send(JSON.stringify({"EVENT":1, "data": JSON.stringify(event)}));
+        };
+        });
+    </script>
     <body>
-        
         <div id="timer">
             <span id="displayMsg"></span><span id="hours"></span><span id="minutes"></span><span id="seconds"></span>
         </div>
-        <div id="debug"></div>
-
+        <!--<div id="debug"></div>--!>
+        
     </body>
 </html>
