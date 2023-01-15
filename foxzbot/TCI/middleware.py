@@ -1,6 +1,10 @@
+from time import sleep
+from Websock.WebSocketServer import WebSocketServer
 from . import TwitchChatInterface
 from .Parser import parser
-
+import asyncio
+from django.apps import apps
+import json
 settings={
   "server": "irc.chat.twitch.tv",
   "port": 6667,
@@ -12,18 +16,27 @@ settings={
 
 tci = TwitchChatInterface.TCI(settings)
 
-def handleConnect(sender, obj):
-    print ("connected!")
+def getChatStatusEventString() -> str:
+  print(tci.channels)
+  return json.dumps({'EVENT':'CHATSTATUS','DATA':tci.isConnected})
 
-def handleMessage(sender, message):
-    #print("[{0}] {1}: {2} ".format(message.channel,message.username,message.text))
-    parser(message, sender)
-
+def handleChatStatus(sender, obj):
+  task: asyncio.Task = sender.broadcast(getChatStatusEventString(), "/chatstatus")
+  asyncio.get_running_loop().create_task(task)   
+    
 def StartTciClient():
-  tci.onConnected(handleConnect)
-  tci.onMessage(handleMessage)
-  try:
-    tci.start()
-  except TwitchChatInterface.InvalidLoginError:
-    print("Invalid Login")
  
+
+  #setup websocket chat server command events
+  Websock = apps.get_app_config("Websock")
+  webSocketSever: WebSocketServer = Websock.websocketServer
+  webSocketSever.event.on("CHATSTATUS", handleChatStatus)
+  webSocketSever.event.on("CHATCONNECT", lambda sender, obj: tci.connect())
+  webSocketSever.event.on("CHATDISCONNECT", lambda sender, obj: tci.disconnect())
+
+  #setup chat server events
+  tci.onConnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
+  tci.onDisconnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
+  tci.onMessage(lambda sender, message: parser(message, sender))
+  
+  tci.run()
