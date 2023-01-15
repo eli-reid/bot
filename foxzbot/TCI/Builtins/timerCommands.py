@@ -36,8 +36,4 @@ class timer(commandBase):
         return
 
     def _sendBroadcast(self, data:str):
-        def runner():
-            loop = asyncio.events.new_event_loop()
-            loop.run_until_complete( self.broadcast(data, self.path))
-        newthread = Thread(target=runner, daemon=True)
-        newthread.start()
+            asyncio.run( self.broadcast(data, self.path))

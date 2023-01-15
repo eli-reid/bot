@@ -1,10 +1,12 @@
+import asyncio
+from threading import Thread
+from time import sleep
 from typing import Any, Optional
 from django.apps import AppConfig, apps
-
 class TciConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'TCI'
-    
+   
     def __init__(self, app_name: str, app_module: Optional[Any]) -> None:
         self.displayName = 'Chat Interface'
         self._settings:list[dict] =[
@@ -18,16 +20,15 @@ class TciConfig(AppConfig):
         super().__init__(app_name, app_module)
 
     def ready(self) -> None:
-        
         self.settingsObj = apps.get_app_config('Home').get_model('Settings')
         self.load_default_settings()
         return super().ready()
 
-    def load_default_settings(self):
+    def load_default_settings(self) -> None:
         for setting in self._settings:
             obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
             
-    def reset_default_settings(self):
+    def reset_default_settings(self) -> None:
         for setting in self._settings:
             update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
             update["value"] = setting.get('value')
