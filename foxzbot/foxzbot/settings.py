@@ -31,7 +31,6 @@ ALLOWED_HOSTS = ["*"]
 # Application definition
 
 INSTALLED_APPS = [
-
     'fontawesomefree',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -49,9 +48,7 @@ INSTALLED_APPS = [
     'Websock',
     'TCI',
     'TwitchAPI',
-    
     'StreamTimer'
-
 ]
 
 MIDDLEWARE = [

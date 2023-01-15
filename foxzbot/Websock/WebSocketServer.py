@@ -5,19 +5,20 @@ import websockets
 import asyncio
 from websockets.server import serve
 from django.urls import resolve
-from TCI.middleware import tci
 from enum import Enum
-
+from .EventHandler import EventHandler
 class WebSocketServer:
     class EVENT(Enum):
         BROADCAST = 1
 
     def __init__(self) -> None:
+        self.event = EventHandler
         self.__clients: dict[str,set] = {}
         self.__url: str = 'localhost'
         self.__port: int = 8001
     
     async def broadcast(self, message, path):
+        
         if (self.__clients.get(path) is not None):
             for websocket in self.__clients.get(path).copy():
                 try:
@@ -25,15 +26,17 @@ class WebSocketServer:
                 except websockets.ConnectionClosed:
                     pass
 
-    async def __messageHandler(self,websocket, path:str):
+    async def __messageHandler(self, websocket, path:str):
         if path not in self.__clients.keys():
             self.__clients[path] = set()
         self.__clients[path].add(websocket)
-        async for msg in websocket:
-            dataDict:dict = json.loads(msg)
-            if dataDict['EVENT'] == self.EVENT.BROADCAST.value:
-                await self.broadcast(dataDict['data'], path)
-        
+        async for message in websocket:
+            dataDict:dict = json.loads(message)
+            print(dataDict)
+            self.event.emit(self, dataDict.get('EVENT'), dataDict.get('DATA'))
+            
+
+
     async def __server(self):
         async with websockets.serve(self.__messageHandler, self.__url, self.__port):
             await asyncio.Future()

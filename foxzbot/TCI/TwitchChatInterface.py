@@ -79,12 +79,14 @@ class TCI(object):
         # public properties
         self.event: EventHandler = EventHandler
         self.COMMANDS: MessageHandler.COMMANDS = self._messageHandler.COMMANDS
-        self.startWithThread = threading.Thread(target=self.start, daemon=True).start
+        self.startWithThread = threading.Thread(target=self.run, daemon=True).start
         self.channels: dict = {} 
         self.globalUserState: MessageHandler.globalUSerState = MessageHandler.globalUSerState()
+        self.isConnected = self._server.isConnected()
 
         # Register System Event functions
         self.event.on(self.COMMANDS.CONNECTED, self._onConnected)
+        self.event.on(self.COMMANDS.DISCONNECTED, self._onDisconnected)
         self.event.on(self.COMMANDS.NOTICE, self._onNotice)
         self.event.on(self.COMMANDS.ROOMSTATE, self._onRoomState)
         self.event.on(self.COMMANDS.USERSTATE, self._setUserState)
@@ -100,14 +102,12 @@ class TCI(object):
         self._getMessagesTread = threading.Thread(target=self._getMsgs, name="getmsg", daemon=True) 
         self._threadEvent = threading.Event()
 
-    def start(self)->None:
+    def run(self)->None:
         """
         TwitchChatInterface.start - connects to server, logins in and starts send and recieve threads 
 
         """
-        self._run =True
-        self._server.connect()
-        self._login()
+        self._run = True
         self._sendMessagesThread.start()
         self._getMessagesTread.start()  
 
@@ -115,43 +115,57 @@ class TCI(object):
         self._server.disconnect(reason=reason)
         self._threadEvent.set()
         print(self._threadEvent.is_set())
+    
+    def disconnect(self):
+        if self._server.isConnected():
+            self._server.disconnect()
+    
+    def connect(self):
+        if not self._server.isConnected():
+            self._login()
+            self._server.connect()
 
     def _getMsgs(self)->None:
         """
         TwitchChatInterface._getMsgs [summary]
         """
         data=""
-        while self._server.isConnected():
+        while True:
             time.sleep(.1)
-            if self._threadEvent.is_set():
-                print("Breaking LOOP")
-                break
-            data = self._server.receive()
-            if data is not None:
-                messageParts: list(str) = data.split("\r\n")
-                for messagePart in messageParts:
-                    self.event.emit(self,self.COMMANDS.RECEIVED, messagePart)
-                    event, msg = self._messageHandler.handleMessage(messagePart)
-                    if event is not None:
-                        self.event.emit(self, event, msg)
+            if self._server.isConnected():
+                try:
+                    data = self._server.receive()
+                except:
+                    pass
+                if data is not None:
+                    messageParts: list(str) = data.split("\r\n")
+                    for messagePart in messageParts:
+                        self.event.emit(self,self.COMMANDS.RECEIVED, messagePart)
+                        event, msg = self._messageHandler.handleMessage(messagePart)
+                        if event is not None:
+                            self.event.emit(self, event, msg)
        
 
     def _emptyMsgQ(self)->None:
         """
         TwitchChatInterface._emptyMsgQ [summary]
         """
-        while self._server.isConnected() :
-            if self._threadEvent.is_set():
-                break
-            if not self._sendQ.empty():
-                self._server.send(self._sendQ.get())
-                time.sleep(1)
+        status = self._server.isConnected()
+        while True:
+            if status != self._server.isConnected():
+                status=self._server.isConnected()
+                if not self._server.isConnected():
+                    self.event.emit(self, self.COMMANDS.DISCONNECTED, "")   
+                
+            if self._server.isConnected():
+                if not self._sendQ.empty():
+                    self._server.send(self._sendQ.get())
+                    time.sleep(1)
         
 
     def _login(self)->None:
         """[summary]
         """
-
         self._sendQ.put(f"CAP REQ :{self._caprequest}")
         self._sendQ.put(f"PASS {self._password}")          
         self._sendQ.put(f"NICK {self._user}")
@@ -166,11 +180,24 @@ class TCI(object):
         :type message: Message
         """
         print(f"Currently in {len(self._channels)} rooms")
+        self.isConnected = True
         if self._channels is not None:
             self.join(self._channels) 
-    
+
+    def _onDisconnected(self, sender: object, message)->None:
+        """
+        TwitchChatInterface._onConnected - event callback function
+        
+        :param sender: what is reasponsible for event
+        :type sender: object
+        :param message: irc message
+        :type message: Message
+        """
+        self.isConnected = False
+
     def _onInvalidLogin(self, sender: object, message)->None:
         print(f"LOGIN FAIL!: {message}")
+        self.isConnected = False
         self.stop( message)
 
     def _onRoomState(self, sender: object, message)->None:
@@ -506,6 +533,16 @@ class TCI(object):
         :type func: [type]
         """
         self.event.on(self.COMMANDS.CONNECTED, func)
+    
+    def onDisconnected(self, func):
+        """
+        onConnected[summary]
+        
+        :param func: [description]
+        :type func: [type]
+        """
+        self.event.on(self.COMMANDS.DISCONNECTED, func)
+
 
     def onLoginError(self, func):
         """

@@ -12,11 +12,14 @@ class quote(commandBase):
        
         
     def print(self):
-        if self.data is not None and self.data.isnumeric() and int(self.data) in self.ids:
-            quoteobj = self.quotesObj.objects.get(id=self.data)
-        else:
-            quoteobj = self.quotesObj.objects.get(id=choice(self.ids))
-        self.tci.sendMessage(self.message.channel,f"id: {quoteobj.id}, { quoteobj.quote}")
+        try:
+            if self.data is not None and self.data.isnumeric() and int(self.data) in self.ids:
+                quoteobj = self.quotesObj.objects.get(id=self.data)
+            else:
+                quoteobj = self.quotesObj.objects.get(id=choice(self.ids))
+            self.tci.sendMessage(self.message.channel,f"id: {quoteobj.id}, { quoteobj.quote}")
+        except:
+            pass
 
     def add(self):
         if self.data is not None:
