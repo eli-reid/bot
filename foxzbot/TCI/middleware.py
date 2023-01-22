@@ -1,4 +1,3 @@
-from time import sleep
 from Websock.WebSocketServer import WebSocketServer
 from .TwitchChatInterface.TwitchChatInterface import TCI
 from .Parser import parser
