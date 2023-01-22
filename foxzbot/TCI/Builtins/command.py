@@ -1,8 +1,8 @@
 from django.apps import apps
 from django.db.models import Model
 from random import choice
-from ..MessageHandler import Message
-from ..TwitchChatInterface import TCI
+from ..TwitchChatInterface.MessageHandler import Message
+from ..TwitchChatInterface.TwitchChatInterface import TCI
 from .commandBase import commandBase
 
 class command(commandBase):

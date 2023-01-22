@@ -3,6 +3,7 @@ from threading import Thread
 from time import sleep
 from typing import Any, Optional
 from django.apps import AppConfig, apps
+from .middleware import  loadTCISettings
 class TciConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'TCI'
@@ -22,6 +23,7 @@ class TciConfig(AppConfig):
     def ready(self) -> None:
         self.settingsObj = apps.get_app_config('Home').get_model('Settings')
         self.load_default_settings()
+        loadTCISettings()
         return super().ready()
 
     def load_default_settings(self) -> None:

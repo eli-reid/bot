@@ -2,9 +2,10 @@ import queue
 import time
 import threading
 from .EventHandler import EventHandler
-from . import IrcController 
-from . import MessageHandler
+from .IrcController import IrcController 
+from .MessageHandler import *
 from datetime import datetime
+
 class InvalidLoginError(Exception):
     pass
 
@@ -65,15 +66,15 @@ class TCI(object):
                 user_type: str
 
     """
-    def __init__(self,settings: dict):
+    def __init__(self, settings: dict):
       
         # private properties
         self._channels: list = settings.get('channels')
         self._user: str = settings.get('user')
         self._password: str = settings.get('password')
         self._caprequest: str = settings.get('caprequest')
-        self._server = IrcController.IrcController(settings.get("server"),settings.get("port"))
-        self._messageHandler: MessageHandler = MessageHandler.MessageHandler()
+        self._server = IrcController(settings.get("server"),settings.get("port"))
+        self._messageHandler: MessageHandler = MessageHandler()
         self._sendQ: queue.SimpleQueue = queue.SimpleQueue()
 
         # public properties
@@ -81,7 +82,7 @@ class TCI(object):
         self.COMMANDS: MessageHandler.COMMANDS = self._messageHandler.COMMANDS
         self.startWithThread = threading.Thread(target=self.run, daemon=True).start
         self.channels: dict = {} 
-        self.globalUserState: MessageHandler.globalUSerState = MessageHandler.globalUSerState()
+        self.globalUserState: globalUSerState = globalUSerState()
         self.isConnected = self._server.isConnected()
 
         # Register System Event functions
@@ -101,6 +102,13 @@ class TCI(object):
         self._sendMessagesThread = threading.Thread(target=self._emptyMsgQ, name="sendmsg", daemon=True)
         self._getMessagesTread = threading.Thread(target=self._getMsgs, name="getmsg", daemon=True) 
         self._threadEvent = threading.Event()
+
+    def updateSettings(self, settings: dict):
+        self._channels = settings.get('channels')
+        self._user = settings.get('user')
+        self._password = settings.get('password')
+        self._caprequest = settings.get('caprequest')
+        self._server =  IrcController(settings.get("server"),settings.get("port"))
 
     def run(self)->None:
         """
@@ -376,7 +384,7 @@ class TCI(object):
         """
         if channel not in self.channels:
             channel = self._formatChannelName(channel)
-            self.channels[channel]: MessageHandler.Channel = MessageHandler.Channel()
+            self.channels[channel]:  Channel =  Channel()
             self.channels[channel].name = channel
 
     def _removeChannel(self, channel: str)->None:
@@ -447,7 +455,7 @@ class TCI(object):
         """
         self._sendQ.put(f"PRIVMSG {'#' if '#' not in channelName else ''}{channelName} :/w {username} {messageString}")
 
-    def clearMessage(self, message: MessageHandler.Message):
+    def clearMessage(self, message: Message):
         self.sendMessage(message.channel, f"/delete {message.id}")
        
        
