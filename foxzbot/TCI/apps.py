@@ -1,6 +1,3 @@
-import asyncio
-from threading import Thread
-from time import sleep
 from typing import Any, Optional
 from django.apps import AppConfig, apps
 from .middleware import  loadTCISettings
