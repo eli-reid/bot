@@ -21,6 +21,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", include("Home.urls")),
+    path("settings/", include("Home.settingUrls")),
     path("quotes/", include("Quotes.urls")),
     path("twitch/", include("TwitchAPI.urls")),
     path("streamtimer/", include("StreamTimer.urls")),

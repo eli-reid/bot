@@ -3,6 +3,7 @@
 
     .. codeauthor:: Eli Reid <EliR@EliReid.com>
 """
+import inspect
 import types
 
 class EventHandler:
@@ -12,8 +13,8 @@ class EventHandler:
     _events: dict = dict()
 
     @classmethod
-    def emit(cls, sender: any, event: str, obj: object = None, once: bool = False)->None:
-        """ EventHandler.emit - Emits event to callback functions
+    async def emit(cls, sender: any, event: str, obj: object = None, once: bool = False)->None:
+        """ EventHandler.emit - Emits event to callback functions works with sync and async functions
 
             :param sender: what is responsible for the event
             :type sender: any
@@ -41,8 +42,11 @@ class EventHandler:
         else:
             cls._register(event)
             for func in cls._events.get(event).getCallbackFuncs():
-                func(sender, obj)
-       
+                if inspect.iscoroutinefunction(func):
+                    await func(sender, obj)
+                else:
+                    func(sender, obj)
+
     @classmethod
     def on(cls, event: str, func: types.FunctionType or types.MethodType)->None:
         """ EventHandler.on - sets callback functions to event
@@ -66,6 +70,7 @@ class EventHandler:
         else:
             cls._register(event)
             cls._events[event].add(func)
+    
        
     @classmethod
     def removeEvent(cls, event: str)->None:

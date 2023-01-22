@@ -10,7 +10,7 @@ settings={
   "port": 6667,
   "user": "edog0049a",
   "password":"oauth:uqyosuh6zf54is2me2jl5l8qgahtlz",
-  "channels": ["edog0049a"],
+  "channels": ["edog0049a", "alilfoxz"],
   "caprequest" :"twitch.tv/tags twitch.tv/commands twitch.tv/membership" 
 }
 
@@ -18,15 +18,13 @@ tci = TwitchChatInterface.TCI(settings)
 
 def getChatStatusEventString() -> str:
   print(tci.channels)
-  return json.dumps({'EVENT':'CHATSTATUS','DATA':tci.isConnected})
+  return json.dumps({'EVENT':'CHATSTATUS','DATA':tci.isConnected, 'ROOMS':list(tci.channels.keys()), 'BOTNAME':str(tci.globalUserState.display_name)})
 
-def handleChatStatus(sender, obj):
-  task: asyncio.Task = sender.broadcast(getChatStatusEventString(), "/chatstatus")
-  asyncio.get_running_loop().create_task(task)   
+async def handleChatStatus(sender, obj):
+  await sender.broadcast(getChatStatusEventString(), "/chatstatus")
+   
     
 def StartTciClient():
- 
-
   #setup websocket chat server command events
   Websock = apps.get_app_config("Websock")
   webSocketSever: WebSocketServer = Websock.websocketServer
@@ -37,6 +35,7 @@ def StartTciClient():
   #setup chat server events
   tci.onConnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onDisconnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
+  tci.onGlobalUserState(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onMessage(lambda sender, message: parser(message, sender))
   
   tci.run()
