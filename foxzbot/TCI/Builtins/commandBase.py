@@ -1,7 +1,7 @@
 from django.apps import apps
 from random import randint,choice
-from ..MessageHandler import Message
-from ..TwitchChatInterface import TCI
+from ..TwitchChatInterface.MessageHandler import Message
+from ..TwitchChatInterface.TwitchChatInterface import TCI
 class commandBase():
     def __init__(self, tci:TCI, message: Message, cmd:str) -> None:
         self.message = message
