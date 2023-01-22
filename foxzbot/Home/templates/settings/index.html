@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="contianer">
+<div class="row">
+    <div class="col"><h1 class="my-5">Settings</h1></div>
+    <div class="col"><a href="{% url 'settings.add' %}" class="btn btn-primary my-5">Add</a></div>
+</div>
+<div class="row p-1 "> 
+    <div class="col-2"> 
+        <h2>Key</h2>
+    </div>
+    <div class="col-2" >
+        <h2>Value</h2>
+    </div>
+    <div class="col-1">
+    </div>
+    </div>
+    {% for setting in settings %}
+        <div class="row p-1 border-b g-1"> 
+            <div class="col-2"> 
+                <a href="{% url 'settings.detail' pk=setting.id%}" class="text-dark text-decoration-non">
+                    {{setting.key}}
+                </a>
+            </div>
+            <div class="col-2" >
+                {{setting.value}}
+            </div>
+            <div class="col-1">
+                <a href="{% url 'settings.edit' pk=setting.id%}" class="text-dark text-decoration-non p-1">
+                    <i class="fa-solid fa-pen-to-square"></i></a>
+                <a href="{% url 'settings.delete' pk=setting.id%}" class="text-dark text-decoration-non p-1">
+                    <i class="fa-solid fa-trash-can"></i></a>
+            </div>
+        </div>
+    {% endfor %}
+</div>    
+<script>
+    moveActive("settings")
+</script>
+{% endblock %}

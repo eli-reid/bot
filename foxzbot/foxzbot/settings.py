@@ -40,12 +40,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps
     'Home',
+    'Websock',
     'Commands',
     'Users',
     'Quotes',
     'Notifications',
     'Timers',
-    'Websock',
     'TCI',
     'TwitchAPI',
     'StreamTimer'

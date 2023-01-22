@@ -22,11 +22,16 @@ class TwitchapiConfig(AppConfig):
         return super().ready()
 
     def load_default_settings(self):
-        for setting in self._settings:
-            obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
-            
+        try:
+            for setting in self._settings:
+                obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
+        except:
+            pass       
     def reset_default_settings(self):
-        for setting in self._settings:
-            update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
-            update["value"] = setting.get('value')
-            update.save()
+        try:
+            for setting in self._settings:
+                update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
+                update["value"] = setting.get('value')
+                update.save()
+        except:
+            pass
