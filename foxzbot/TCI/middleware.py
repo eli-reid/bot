@@ -50,6 +50,6 @@ def StartTciClient():
   tci.onConnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onDisconnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onGlobalUserState(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
-  tci.onMessage(lambda sender, message: parser(message, sender))
+  tci.onMessage(parser(message, sender))
   
   tci.run()
