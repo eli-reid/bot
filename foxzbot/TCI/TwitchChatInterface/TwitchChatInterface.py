@@ -112,7 +112,7 @@ class TCI(object):
 
     def run(self)->None:
         """
-        TwitchChatInterface.start - connects to server, logins in and starts send and recieve threads 
+        TwitchChatInterface.start - starts send and recieve threads 
 
         """
         self._run = True

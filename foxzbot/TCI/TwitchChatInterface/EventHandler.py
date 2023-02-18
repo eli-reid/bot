@@ -4,7 +4,7 @@
     .. codeauthor:: Eli Reid <EliR@EliReid.com>
 """
 import types
-class EventHandler():
+class EventHandler:
     """
     Event Handler
     """

@@ -5,8 +5,6 @@ import json
 import webbrowser
 from aiohttp import web
 
-
-
 class TwitchAPI():
     def __init__(self) -> None:
         self._httpClientSession = aiohttp.ClientSession()
@@ -35,7 +33,7 @@ class TwitchAPI():
              'Client-Id': 'l2fn9r2aceogfbjebk6ufcapa8s92q'
         }
         print(await self._httpClientSession.get("https://api.twitch.tv/helix/users?login=edog0049a"))
-        await self._httpClientSession.get(self._twitchURL + endpoint,)
+        response = await self._httpClientSession.get(self._twitchURL + endpoint,)
 
         return response.json()
 
@@ -82,7 +80,6 @@ async def testapi ():
         }
        
     t=aiohttp.ClientSession()
-    wb = webbrowser.open_new(url=url)
     
     
     
