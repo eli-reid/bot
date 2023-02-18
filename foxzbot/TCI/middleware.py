@@ -6,7 +6,6 @@ from django.apps import apps
 import json
 
 #setup tci 
-
 settings={
 "server": "",
 "port": 0,
@@ -50,6 +49,6 @@ def StartTciClient():
   tci.onConnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onDisconnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onGlobalUserState(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
-  tci.onMessage(parser(message, sender))
+  tci.onMessage(parser)
   
   tci.run()

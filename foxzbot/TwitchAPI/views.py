@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from .Twitch.oauth import twitchOauth
 
-TOA = twitchOauth("l2fn9r2aceogfbjebk6ufcapa8s92q","jc0b2fmf3qnldgko29ls2uu6q6ft0u","moderator:read:chatters+moderation:read")
+TOA = twitchOauth("l2fn9r2aceogfbjebk6ufcapa8s92q","m9i6zzis2mdkfwu6u7aibuo4acumak","moderator:read:chatters+moderation:read")
 
 @method_decorator(login_required, "get")
 class APIOauth(View):

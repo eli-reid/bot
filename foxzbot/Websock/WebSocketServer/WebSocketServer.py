@@ -29,7 +29,6 @@ class WebSocketServer:
         self.__clients[path].add(websocket)
         async for message in websocket:
             dataDict:dict = json.loads(message)
-            print(dataDict)
             await self.event.emit(self, dataDict.get('EVENT'), dataDict.get('DATA'))
             
     async def __server(self):
