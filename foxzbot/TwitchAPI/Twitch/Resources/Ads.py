@@ -21,15 +21,15 @@ response:
       "message" : "",
       "retry_after" : 480
     }
-  ]
+  ] 
 }
 
 """
 from dataclasses import dataclass, field
-import Scope
-from Utils import ResourceBaseClass,ResponseBaseClase
+from . import Scope
+from .Utils import RequestBaseClass, ResponseBaseClass
 
-class StartCommercialRequest(ResourceBaseClass):
+class StartCommercialRequest(RequestBaseClass):
     requestType = "POST"
     scope = Scope.Channel.Edit.Commercial
     reqiurements = ["user access token"]
@@ -42,11 +42,7 @@ class StartCommercialItem():
     message: str
     retry_after: int 
 
-class StartCommercialRepsonse(ResponseBaseClase):
-    @super().data.setter
-    def data(self, dataItems:list):
-        for key, value in dataItems:
-            tmpItem = StartCommercialItem()
-            tmpItem.__dict__[key] = value
-            self._dataList.append(tmpItem)
+class StartCommercialRepsonse(ResponseBaseClass):
+    def __init__(self) -> None:
+        super().__init__(StartCommercialItem)
     

@@ -165,10 +165,9 @@ class TCI(object):
                 if not self._server.isConnected():
                     self.event.emit(self, self.COMMANDS.DISCONNECTED, "")   
                 
-            if self._server.isConnected():
-                if not self._sendQ.empty():
-                    self._server.send(self._sendQ.get())
-                    time.sleep(1)
+            if self._server.isConnected() and not self._sendQ.empty():
+                self._server.send(self._sendQ.get())
+                time.sleep(1)
         
 
     def _login(self)->None:
