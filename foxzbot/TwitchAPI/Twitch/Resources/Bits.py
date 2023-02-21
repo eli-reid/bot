@@ -33,6 +33,34 @@ response
   "total": 2
 }
 """
+from . import Utils
+from . import Scope 
+from typing import Optional
+class BitsLeaderboardRequest(Utils.RequestBaseClass):
+    requestType = "GET"
+    scope = Scope.Bits.Read
+    requirements = ["user access token"]
+    endPoint = "/bits/leaderboard"
+    def __init__(self, count: Optional[int]=10, period: Optional[str]="all", 
+                 started_at: Optional[str]=None, user_id: Optional[str]=None) -> None:
+        self.count: int = count
+        self.period: str = period
+        self.started_at: str = started_at
+        self.user_id:str = user_id
+        super().__init__()
+
+class BitsLeaderboardItem:
+    def __init__(self) -> None:
+        self.user_id:str = ""
+        self.user_login:str = ""
+        self.user_name:str = ""
+        self.rank: int = -1
+        self.score: int = -1
+
+class BitsLeaderboardResponse(Utils.ResponseBaseClass, Utils.DateRangeMixin):
+    def __init__(self) -> None:
+        super().__init__(BitsLeaderboardItem)
+   
 
 
 """

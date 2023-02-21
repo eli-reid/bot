@@ -28,7 +28,11 @@ response:
 
 """
 import Scope 
-from Utils import dateRange, RequestBaseClass, ResponseBaseClase,pagenation
+from Utils import dateRange, \
+                DateRangeMixin,\
+                RequestBaseClass,\
+                ResponseBaseClass,\
+                PagenationMixin
 
 class ExtensionAnalyticsRequest(RequestBaseClass):
   requestType = "GET"
@@ -36,44 +40,15 @@ class ExtensionAnalyticsRequest(RequestBaseClass):
   requirements = ["user access token"]
   endPoint = "/analytics/extensions"
 
-class ExtensionAnalyticsItem():
+class ExtensionAnalyticsItem(DateRangeMixin):
     def __init__(self) -> None:
         self.extension_id:str
         self.URL:str
         self.type:str
-        self._dateRange: dateRange
 
-    @property    
-    def date_range(self) -> dateRange:
-       return self._dateRange
-    
-    @date_range.setter
-    def date_range(self,daterange: dict[str,str]):
-       for key, val in daterange:
-          self._dateRange[key]=val
-
-class ExtensionAnalyticsResponse(ResponseBaseClase):
+class ExtensionAnalyticsResponse(PagenationMixin, ResponseBaseClass):
     def __init__(self) -> None:
-        self._paganation:pagenation
         super().__init__()
-   
-    @super().data.setter
-    def data(self, dataItems:list):
-        for key, value in dataItems:
-            tmpItem = ExtensionAnalyticsItem()
-            tmpItem.__dict__[key] = value
-            self._dataList.append(tmpItem)
-    
-    @property
-    def pagenation(self) -> pagenation:
-        return self._paganation
-    
-    @pagenation.setter
-    def pagenation(self, page: dict):
-        self._paganation.cursor = page.get("cursor")
-        
-      
-
 
 """
 Get Game Analytics
@@ -100,6 +75,12 @@ response:
 
 """
 
+class GameAnalyticsItem(DateRangeMixin):
+    def __init__(self) -> None:
+        self.game_id:str
+        self.URL:str
+        self.type:str
+        
 class GameAnalyticsRequest(RequestBaseClass):
     requestType = "GET"
     scope = Scope.Analytics.Read.Extensions
@@ -112,27 +93,7 @@ class GameAnalyticsRequest(RequestBaseClass):
         self.date_range = date_range
         super().__init__()
 
-class GameAnalyticsItem():
+
+class GameAnalyticsResponse(PagenationMixin, ResponseBaseClass):
     def __init__(self) -> None:
-        self.game_id:str
-        self.URL:str
-        self.type:str
-        self._dateRange: dateRange
-
-    @property    
-    def date_range(self) -> dateRange:
-       return self._dateRange
-    
-    @date_range.setter
-    def date_range(self,daterange: dict[str,str]):
-       for key, val in daterange:
-          self._dateRange[key]=val
-
-class GameAnalyticsResponse(ResponseBaseClase):
-
-    @super().data.setter
-    def data(self, dataItems:list):
-        for key, value in dataItems:
-            tmpItem = GameAnalyticsItem()
-            tmpItem.__dict__[key] = value
-            self._dataList.append(tmpItem)
+        super().__init__(GameAnalyticsItem)
