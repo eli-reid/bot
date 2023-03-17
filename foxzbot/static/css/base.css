@@ -3,7 +3,7 @@ body {
   }
   @media (min-width: 991.98px) {
     main {
-      padding-left: 240px;
+      padding-left: 280px;
     }
   }
   
@@ -11,11 +11,12 @@ body {
   .sidebar {
     position: fixed;
     top: 0;
-    bottom: 0;
+    bottom: 50px;
     left: 0;
     padding: 58px 0 0; /* Height of navbar */
     box-shadow: 0 2px 5px 0 rgb(0 0 0 / 5%), 0 2px 10px 0 rgb(0 0 0 / 5%);
-    width: 240px;
+    width: 280px;
+    
     z-index: 600;
   }
   
@@ -36,4 +37,8 @@ body {
     padding-top: 0.5rem;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+  }
+  .statusbar{
+    height: 50px;
+    padding-left: 5 ;
   }

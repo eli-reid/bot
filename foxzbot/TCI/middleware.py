@@ -12,6 +12,9 @@ settings={
 
 tci = TwitchChatInterface.TCI(settings)
 
+def handleDisconnect(sender,obj):
+  print("disconnected")
+
 def handleConnect(sender, obj):
     print ("connected!")
 
@@ -22,8 +25,5 @@ def handleMessage(sender, message):
 def StartTciClient():
   tci.onConnected(handleConnect)
   tci.onMessage(handleMessage)
-  try:
-    tci.start()
-  except TwitchChatInterface.InvalidLoginError:
-    print("Invalid Login")
- 
+  tci.onDisconnected(handleDisconnect)
+  tci.run()

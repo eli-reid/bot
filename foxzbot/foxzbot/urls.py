@@ -24,5 +24,6 @@ urlpatterns = [
     path("quotes/", include("Quotes.urls")),
     path("twitch/", include("TwitchAPI.urls")),
     path("streamtimer/", include("StreamTimer.urls")),
-    path("commands/", include("Commands.urls"))
+    path("commands/", include("Commands.urls")),
+    path("tci/",include("TCI.urls")),
 ] 

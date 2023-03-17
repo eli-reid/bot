@@ -35,7 +35,7 @@ class IrcController():
             self._connected =True
             print(f"Connected to {self._server}:{self._port}!")
         except socket.error as error:
-            self.disconnect(f"TCI error: {error}")
+            self.disconnect(f"IRC error: {error}")
             
     def disconnect(self, reason="")->None:
         """
@@ -48,10 +48,10 @@ class IrcController():
         :return: None
         :rtype: None
         """
-        
-        self._socket.close()
-        print(f"TCI Disconnected! {reason}")
         self._connected = False
+        self._socket.close()
+        print(f"IRC Disconnected! {reason}")
+        
 
     def send(self, data: str)->None:
         """ IrcController.send - sends to server 
@@ -76,18 +76,16 @@ class IrcController():
         """
         data: str = ""
         self._ping()
-        while self._connected:
-            self._socket.setblocking(False)
-            try:
-                # Should be ready to read
-                data += self._socket.recv(4096).decode()
-                if data.startswith("PING"):
-                    self._pong(data)
-            except BlockingIOError:
-                self._socket.setblocking(True)
-                break
-            except socket.error as error:
-                self.disconnect(error)
+        self._socket.setblocking(False)
+        try:
+            # Should be ready to read
+            data += self._socket.recv(4096).decode()
+            if data.startswith("PING"):
+                self._pong(data)
+        except BlockingIOError:
+            self._socket.setblocking(True)
+        except socket.error as error:
+            self.disconnect(error)
         return data if len(data) > 0 else None 
 
     def isConnected(self)->bool:
