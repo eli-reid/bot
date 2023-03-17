@@ -3,7 +3,9 @@ let a = 0
 let eventData
 let timeinterval 
 let timedata = {}
-const socket = new WebSocket("ws://127.0.0.1:8001");
+var event = {}
+const socket = new WebSocket("ws://127.0.0.1:8001/streamtimer");
+
 
 function TimeDiff() {
     let Start = new Date();
@@ -35,6 +37,7 @@ function TimeDiff() {
 
 socket.onmessage = (message) => {
     let socketMessage = JSON.parse(message.data);
+    console.log(message.data)
     switch (socketMessage.event) {
         case "EVENT_STOP":
             clearInterval(timeinterval);
@@ -56,6 +59,7 @@ socket.onmessage = (message) => {
                 timeinterval = setInterval(TimeDiff, 1000);
             break;
     }
+   
 } 
 
 

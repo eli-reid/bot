@@ -1,7 +1,11 @@
 from typing import Any, Optional
 from django.apps import AppConfig, apps
+<<<<<<< HEAD
 from .middleware import tci, StartTciClient
 
+=======
+from .middleware import  loadTCISettings
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
 class TciConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'TCI'
@@ -22,6 +26,7 @@ class TciConfig(AppConfig):
     def ready(self) -> None:
         self.settingsObj = apps.get_app_config('Home').get_model('Settings')
         self.load_default_settings()
+<<<<<<< HEAD
         StartTciClient()
         return super().ready()
 
@@ -34,3 +39,22 @@ class TciConfig(AppConfig):
             update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
             update["value"] = setting.get('value')
             update.save()
+=======
+        loadTCISettings()
+        return super().ready()
+
+    def load_default_settings(self) -> None:
+        try:
+            for setting in self._settings:
+                obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
+        except:
+            pass
+    def reset_default_settings(self) -> None:
+        try:
+            for setting in self._settings:
+                update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
+                update["value"] = setting.get('value')
+                update.save()
+        except:
+            pass
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588

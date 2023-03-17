@@ -1,11 +1,12 @@
 from django.db import models
 
 class Settings(models.Model):
-    app = models.TextField(max_length=20)
-    key = models.TextField(max_length=50)
-    value = models.TextField(max_length=50)
+    app = models.CharField(max_length=20)
+    key = models.CharField(max_length=50)
+    value = models.CharField(max_length=100, blank=True)
     readOnly = models.BooleanField(default=False)
     visible = models.BooleanField(default=False)
+    inputType = models.CharField(max_length=20)
     class Meta:
         unique_together = ('app', 'key')
 

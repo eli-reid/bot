@@ -2,8 +2,8 @@ from threading import Thread
 from django.apps import apps
 from django.db.models import Model
 from random import choice
-from ..MessageHandler import Message
-from ..TwitchChatInterface import TCI
+from ..TwitchChatInterface.MessageHandler import Message
+from ..TwitchChatInterface.TwitchChatInterface import TCI
 from .commandBase import commandBase
 import asyncio
 
@@ -36,8 +36,4 @@ class timer(commandBase):
         return
 
     def _sendBroadcast(self, data:str):
-        def runner():
-            loop = asyncio.events.new_event_loop()
-            loop.run_until_complete( self.broadcast(data, self.path))
-        newthread = Thread(target=runner, daemon=True)
-        newthread.start()
+            asyncio.run( self.broadcast(data, self.path))

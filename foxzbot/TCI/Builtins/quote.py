@@ -1,7 +1,7 @@
 from django.apps import apps
 from random import choice
-from ..MessageHandler import Message
-from ..TwitchChatInterface import TCI
+from ..TwitchChatInterface.MessageHandler import Message
+from ..TwitchChatInterface.TwitchChatInterface import TCI
 from .commandBase import commandBase
 
 class quote(commandBase):
@@ -17,6 +17,10 @@ class quote(commandBase):
                 quoteobj = self.quotesObj.objects.get(id=self.data)
             else:
                 quoteobj = self.quotesObj.objects.get(id=choice(self.ids))
+<<<<<<< HEAD
+=======
+             
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
             self.tci.sendMessage(self.message.channel,f"id: {quoteobj.id}, { quoteobj.quote}")
         except:
             pass

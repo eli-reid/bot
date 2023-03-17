@@ -3,6 +3,7 @@
 <html lang="eng">
     <head>
         <title>FoxzBot</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
         <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'fontawesomefree/css/fontawesome.css' %}" rel="stylesheet" type="text/css">
         <link href="{% static 'fontawesomefree/css/brands.css' %}" rel="stylesheet" type="text/css">
@@ -38,7 +39,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'settings' %}" id="settings" class="nav-link text-white">
+                    <a href="{% url 'settings.list' pk='1'  %}" id="settings" class="nav-link text-white">
                     <i class="fa-regular fa-gears ps-2"></i>
                     Settings
                     </a>
@@ -62,13 +63,21 @@
                     </a>
                 </li>
                 <li class="nav-item">
+<<<<<<< HEAD
                     <a href="{% url 'tcistop' %}" id="notifications" class="nav-link text-white">
+=======
+                    <a href="" id="notifications" class="nav-link text-white" onclick="">
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
                         <i class="fa-regular fa-comment-dollar ps-2"></i>
                     Notifications
                     </a>
                 </li>
                 <li class="nav-item">
+<<<<<<< HEAD
                     <a href="{% url 'tcistart' %}" id="users" class="nav-link text-white">
+=======
+                    <a href="" id="users" class="nav-link text-white" onclick="">
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
                         <i class="fa-regular fa-user-astronaut ps-2"></i>
                     Users
                     </a>
@@ -95,10 +104,17 @@
 </main>
 <nav class="statusbar navbar fixed-bottom navbar-dark bg-light">
     <div class="container-fluid ">
+<<<<<<< HEAD
         Chat Status:<span>Connected</span>
     </div>
   </nav>
         
+=======
+        <span id="chatstatus" >Chat Status:</span> <div><span id="rooms"></span></div> <div><span id="bot"></span></div> <div><button id="chatAction"> connect </button></div>
+    </div>
+    
+  </nav>
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/base.js' %}"></script>
     </body>
