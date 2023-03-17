@@ -247,7 +247,7 @@ class Moderation:
     def Read(cls) -> str:
         return "moderation:read"
 
-class moderator:
+class Moderator:
     class Manage:
         
         @property
@@ -269,7 +269,7 @@ class moderator:
         @property
         def Blocked_terms(cls) -> str:
             return "moderator:manage:blocked_terms"
-        
+
         @property
         def Chat_messages(cls) -> str:
             return "moderator:manage:chat_messages"
@@ -300,7 +300,11 @@ class moderator:
         @property
         def Chat_settings(cls) -> str:
             return "moderator:read:chat_settings"
-        
+                            
+        @property
+        def Chatters(cls)-> str:
+            return "moderator:read:chatters"
+            
         @property
         def Followers(cls) -> str:
             return "moderator:read:followers"

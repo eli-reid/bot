@@ -8,4 +8,6 @@ class SettingsForm(forms.ModelForm):
     class Meta:
         model = Settings
         fields = ('__all__')
+
+settingsFormset = forms.modelformset_factory(Settings, SettingsForm, extra=0)
     

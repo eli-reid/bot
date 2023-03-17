@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<form method="POST" >
+    {% csrf_token %}
+    {{ formset.management_form}}
+    {% for f  in formset.forms %}
+    
+        {{ err }}
+        <input type="text" id="{{ f.id.id_for_label }}" name="{{f.prefix}}-{{f.id.name}}" value="{{ f.id.value }}" hidden="true">
+        <input type="text" id="{{ f.key.id_for_label }}" name="{{f.prefix}}-{{f.key.name}}" value="{{ f.key.value }}" hidden="true">
+        <input type="text" id="{{ f.readOnly.id_for_label }}" name="{{f.prefix}}-{{f.readOnly.name}}" value="{{ f.readOnly.value }}" hidden="true">
+        <input type="text" id="{{ f.visible.id_for_label }}" name="{{f.prefix}}-{{f.visible.name}}" value="{{ f.visible.value }}" hidden="true">
+        <input type="text" id="{{ f.app.id_for_label }}" name="{{f.prefix}}-{{f.app.name}}" value="{{ f.app.value }}" hidden="true">
+        <input type="text" id="{{ f.inputType.id_for_label }}" name="{{f.prefix}}-{{f.inputType.name}}" value="{{ f.inputType.value }}" hidden="true">
+        <div class="container">
+            <div class="row">
+                <div class="col-1 p-1">
+                    <label for="{{ f.value.id_for_label }}">{{ f.key.value }}</label>
+                </div>
+                <div class="col-sm p-1">
+                        <input type="{{ f.inputType.value }}" id="{{ f.value.id_for_label }}" name="{{f.prefix}}-{{f.value.name}}" value="{{f.value.value }}" size="{{f.value.value|length}}">
+                </div>
+            </div>
+        </div>
+    
+    {% endfor%}
+    <button type="submit" class="btn btn-primary my-5 p-1">Submit</button>
+</form>
+{% endblock %}
+

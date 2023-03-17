@@ -1,6 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Dict, List
 from .TCIErrors import InvalidMessageError
+from .TokenBucket import TokenBucket
 
 @dataclass
 class RoomState:
@@ -63,7 +64,10 @@ class UserState:
     color: str = field(default="")
     display_name: str = field(default="")
     emote_sets: str = field(default="")
-    turbo: str = field(default="")
+    id: str = field(default="")
+    mod: bool = field(default=False)
+    subscriber: bool = field(default=False)
+    turbo: bool = field(default=False)
     user_id: str = field(default="")
     user_type: str = field(default="")
 
@@ -75,6 +79,7 @@ class Channel:
     mods: list = field(default_factory=list)
     roomState: RoomState = field(default_factory=RoomState)
     userState: UserState = field(default_factory=UserState)
+    tokenBucket: TokenBucket = field(default_factory = TokenBucket)
 
 def IDEHelper(cls):
     """IDEHelper - changes magic functions to use _VALUE in constants with subtags
@@ -323,7 +328,7 @@ class _ROOMSTATE(str):
     :type str: [type]
     """
     _VALUE: str = "ROOMSTATE"
-    ROOM_ID = "room-id"
+    ROOM_ID: str = "room-id"
     EMOTE_ONLY: str = "emote-only"
     EMOTE_ONLY_ON: str = "emote-only-on"
     EMOTE_ONLY_OFF: str = "emote-only-off"
@@ -462,7 +467,7 @@ class MessageHandler():
         """
         eventTuple = None, None
         try:
-            self._parseMesaage(IrcMessage)
+            self._parseMessage(IrcMessage)
             if self._isMessage(self.message):
                 self._populateMessageValues()
                 eventTuple = self._getEventTuple()   
@@ -470,7 +475,7 @@ class MessageHandler():
             pass     
         return eventTuple
 
-    def _parseMesaage(self, IrcMessage):
+    def _parseMessage(self, IrcMessage):
         self.message = self._parse(IrcMessage)
         if self._isMessage(self.message):
             self._parseMessageEmotes()

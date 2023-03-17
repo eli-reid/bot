@@ -27,8 +27,8 @@ response:
 
 
 """
-import Scope 
-from Utils import dateRange, \
+from .import Scope 
+from .Utils import dateRange, \
                 DateRangeMixin,\
                 RequestBaseClass,\
                 ResponseBaseClass,\

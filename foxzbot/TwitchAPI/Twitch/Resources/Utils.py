@@ -39,16 +39,20 @@ class RequestBaseClass:
       endPoint: str
 
 class ResponseBaseClass:
+    dataitemtype =None
     def __init__(self, dataItem:object) -> None:
-        self._dataItem = dataItem 
-        self._dataList: list = []
+        self.raw: str = None
+        self._dataItem = dataItem
+        self.dataitemtype = dataItem 
+        self._dataList: list[self._dataItem] = []
 
     @property
-    def data(self) -> list:
+    def data(self) -> list[dataitemtype]:
           return self._dataList
     
     @data.setter
     def data(self, dataItems:list) -> None:
+    
         for item in dataItems:
             tmpItem = self._dataItem()
             for key, value in item.items():
