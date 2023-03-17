@@ -17,6 +17,7 @@ class quote(commandBase):
                 quoteobj = self.quotesObj.objects.get(id=self.data)
             else:
                 quoteobj = self.quotesObj.objects.get(id=choice(self.ids))
+             
             self.tci.sendMessage(self.message.channel,f"id: {quoteobj.id}, { quoteobj.quote}")
         except:
             pass

@@ -34,11 +34,11 @@ class StartCommercialRequest(RequestBaseClass):
     scope = Scope.Channel.Edit.Commercial
     reqiurements = ["user access token"]
     endPoint = "/channels/commercial"
-    broadcaster_id:str
-    length:int
+    broadcaster_id:str = ""
+    length:int = -1
 
 class StartCommercialItem():
-    length: int
+    length: int 
     message: str
     retry_after: int 
 

@@ -28,10 +28,8 @@
                 {{setting.value}}
             </div>
             <div class="col-1">
-                <a href="{% url 'settings.edit' pk=setting.id%}" class="text-dark text-decoration-non p-1">
+                <a href="{% url 'settings.edit'}" class="text-dark text-decoration-non p-1">
                     <i class="fa-solid fa-pen-to-square"></i></a>
-                <a href="{% url 'settings.delete' pk=setting.id%}" class="text-dark text-decoration-non p-1">
-                    <i class="fa-solid fa-trash-can"></i></a>
             </div>
         </div>
     {% endfor %}

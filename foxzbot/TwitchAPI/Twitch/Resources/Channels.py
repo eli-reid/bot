@@ -26,6 +26,20 @@ response
 }
 
 """
+from . import Utils
+from . import Scope 
+from typing import Optional
+
+class ChannelInformationRequest(Utils.RequestBaseClass):
+    requestType = "GET"
+    scope = None
+    requirements = ["app access token","user access token"]
+    endPoint = "/channels"
+    def __init__(self, broadcaster_ids: list[str]) -> None:
+        self.broadcaster_ids: list[str] = broadcaster_ids
+        super().__init__()
+
+
 
 
 """

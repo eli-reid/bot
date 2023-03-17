@@ -10,7 +10,7 @@ from .Builtins.command import command
 from .Builtins.timerCommands import timer
 
 
-def parser(message: Message, tci: TCI):
+def parser(tci: TCI, message: Message):
     if message.text.startswith("!"):
         commandText = message.text.split(" ")[0][1:]
         if commandText not in globals():

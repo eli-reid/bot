@@ -35,5 +35,5 @@ class twitchOauth():
         session = aiohttp.ClientSession()
         response: aiohttp.client.ClientResponse = await session.post(url=url,data=data)
         self.responseJson = await response.json()
-        session.close()
+        await session.close()
         return self.responseJson

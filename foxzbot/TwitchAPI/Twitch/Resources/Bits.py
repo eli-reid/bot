@@ -46,7 +46,7 @@ class BitsLeaderboardRequest(Utils.RequestBaseClass):
         self.count: int = count
         self.period: str = period
         self.started_at: str = started_at
-        self.user_id:str = user_id
+        self.user_id: str = user_id
         super().__init__()
 
 class BitsLeaderboardItem:
@@ -57,7 +57,7 @@ class BitsLeaderboardItem:
         self.rank: int = -1
         self.score: int = -1
 
-class BitsLeaderboardResponse(Utils.ResponseBaseClass, Utils.DateRangeMixin):
+class BitsLeaderboardResponse(Utils.DateRangeMixin,Utils.ResponseBaseClass):
     def __init__(self) -> None:
         super().__init__(BitsLeaderboardItem)
    
@@ -80,45 +80,45 @@ response:
       "prefix": "Cheer",
       "tiers": [
         {
-          "min_bits": 1,
-          "id": "1",
-          "color": "#979797",
-          "images": {
-            "dark": {
-              "animated": {
-                "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/1.gif",
-                "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/1.5.gif",
-                "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/2.gif",
-                "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/3.gif",
-                "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/4.gif"
-              },
-              "static": {
-                "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/1.png",
-                "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/1.5.png",
-                "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/2.png",
-                "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/3.png",
-                "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/4.png"
-              }
+            "min_bits": 1,
+            "id": "1",
+            "color": "#979797",
+            "images": {
+                "dark": {
+                    "animated": {
+                        "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/1.gif",
+                        "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/1.5.gif",
+                        "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/2.gif",
+                        "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/3.gif",
+                        "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/animated/1/4.gif"
+                    },
+                    "static": {
+                        "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/1.png",
+                        "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/1.5.png",
+                        "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/2.png",
+                        "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/3.png",
+                        "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/dark/static/1/4.png"
+                        }
+                },
+                "light": {
+                    "animated": {
+                        "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/1.gif",
+                        "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/1.5.gif",
+                        "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/2.gif",
+                        "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/3.gif",
+                        "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/4.gif"
+                    },
+                    "static": {
+                        "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/1.png",
+                        "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/1.5.png",
+                        "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/2.png",
+                        "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/3.png",
+                        "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/4.png"
+                    }
+                }
             },
-            "light": {
-              "animated": {
-                "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/1.gif",
-                "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/1.5.gif",
-                "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/2.gif",
-                "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/3.gif",
-                "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/animated/1/4.gif"
-              },
-              "static": {
-                "1": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/1.png",
-                "1.5": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/1.5.png",
-                "2": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/2.png",
-                "3": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/3.png",
-                "4": "https://d3aqoihi2n8ty8.cloudfront.net/actions/cheer/light/static/1/4.png"
-              }
-            }
-          },
-          "can_cheer": true,
-          "show_in_bits_card": true
+            "can_cheer": true,
+            "show_in_bits_card": true
         }
         ...
       ],
@@ -131,9 +131,58 @@ response:
   ]
 }
 """
+class CheermotesRequest(Utils.RequestBaseClass):
+    requestType = "GET"
+    scope = None
+    requirements = ["app access token","user access token"]
+    endPoint = "/bits/cheermotes"
+    def __init__(self,broadcaster_id:Optional[str] = None) -> None:
+        self.broadcaster_id: Optional[str] = broadcaster_id
+        super().__init__()
+
+class ImageItem:
+    animated : dict[str,str] = []
+    static: dict[str,str] = []
+
+class ImagesItem:
+    dark: ImageItem = None
+    light: ImageItem = None
+
+class teirItem:
+    min_bits: int = -1
+    id: str = ""
+    color: str = ""
+    images: ImagesItem = None
+    can_cheer: bool = False
+    show_in_bits_card: bool =  False
+
+class CheermotesItem:
+  
+    prefix: str = ""
+    _tiers: list[teirItem] = list()
+    type: str = ""
+    order: int = -1
+    last_updated: str = ""
+    is_charitable: bool = False
+    
+    @property
+    def tiers(self)->list[teirItem]:
+        return self._tiers
+    
+    @tiers.setter
+    def tiers(self,tiersList) -> None:
+        for item in tiersList:
+            tmpItem = teirItem()
+            for key, value in item.items():
+                tmpItem.__setattr__(key,value)
+            self._tiers.append(tmpItem)
 
 
 
+    
+class CheermotesResponse(Utils.ResponseBaseClass):
+    def __init__(self,) -> None:
+        super().__init__(CheermotesItem)
 
 """
 Get Extension Transactions
@@ -202,3 +251,45 @@ response
   }
 }
 """
+
+class ExtensionTransactionsRequest(Utils.RequestBaseClass):
+    requestType = "GET"
+    scope = None
+    requirements = ["app access token"]
+    endPoint = "/extensions/transactions"
+
+    def __init__(self,extension_id: str, id: Optional[str]=None, first: Optional[int]=None, after: Optional[str] = None) -> None:
+        self.extension_id: str = extension_id
+        self.id: Optional[str] = id 
+        self.first: Optional[int] = first
+        self.after: Optional[str] = after
+        super().__init__()
+
+class ProductDataItem:
+    domain: str = ""
+    sku: str =""
+    inDevelopment: bool = False,
+    displayName: str = ""
+    expiration:str = ""
+    broadcast:bool = False   
+    class cost: 
+        amount: int = 0
+        type: str = ""
+     
+
+
+class ExtensionTransactionItem:
+    id: str = "",
+    timestamp: str = ""
+    broadcaster_id: str = ""
+    broadcaster_login: str = ""
+    broadcaster_name: str = ""
+    user_id: str = ""
+    user_login: str = ""
+    user_name: str = ""
+    product_type: str = ""
+    product_data: ProductDataItem 
+
+class ExtensionTransactionsResponse(Utils.PagenationMixin, Utils.ResponseBaseClass):
+    def __init__(self) -> None:
+        super().__init__(ExtensionTransactionItem)

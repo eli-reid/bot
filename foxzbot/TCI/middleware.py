@@ -3,6 +3,8 @@ from .TwitchChatInterface.TwitchChatInterface import TCI
 from .Parser import parser
 import asyncio
 from django.apps import apps
+from django.conf import settings as app_settings
+
 import json
 
 #setup tci 
@@ -26,12 +28,13 @@ def loadTCISettings():
     #loads settings into tci from settings database once app is ready
     settingsOBJ = apps.get_app_config('Home').get_model('Settings')
     settings={
-      "server": settingsOBJ.objects.get(app='Chat Interface', key='Server').value,
-      "port": int(settingsOBJ.objects.get(app='Chat Interface', key='Port').value),
-      "user": "edog0049a",
-      "password":"oauth:uqyosuh6zf54is2me2jl5l8qgahtlz",
-      "channels": ["edog0049a", "alilfoxz"],
-      "caprequest" : settingsOBJ.objects.get(app='Chat Interface', key='caprequest').value
+    
+        "server": settingsOBJ.objects.get(app='Chat Interface', key='Server').value,
+        "port": int(settingsOBJ.objects.get(app='Chat Interface', key='Port').value),
+        "user": settingsOBJ.objects.get(app='Chat Interface', key='User').value,
+        "password":f"oauth:{settingsOBJ.objects.get(app='Chat Interface', key='OAuth Key').value}",
+        "channels": str(settingsOBJ.objects.get(app='Chat Interface', key='channels').value).split(','),
+        "caprequest" : settingsOBJ.objects.get(app='Chat Interface', key='caprequest').value
     }
     tci.updateSettings(settings)
 

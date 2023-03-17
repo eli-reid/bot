@@ -1,11 +1,11 @@
 import queue
 import time
+from datetime import datetime
 import threading
 from .EventHandler import EventHandler
 from .IrcController import IrcController 
 from .MessageHandler import *
-from datetime import datetime
-
+from .TokenBucket import TokenBucket
 class InvalidLoginError(Exception):
     pass
 
@@ -76,14 +76,15 @@ class TCI(object):
         self._server = IrcController(settings.get("server"),settings.get("port"))
         self._messageHandler: MessageHandler = MessageHandler()
         self._sendQ: queue.SimpleQueue = queue.SimpleQueue()
+        self._sendTokens = TokenBucket()
 
         # public properties
         self.event: EventHandler = EventHandler
         self.COMMANDS: MessageHandler.COMMANDS = self._messageHandler.COMMANDS
         self.startWithThread = threading.Thread(target=self.run, daemon=True).start
-        self.channels: dict = {} 
+        self.channels: dict[str, Channel] = {} 
         self.globalUserState: globalUSerState = globalUSerState()
-        self.isConnected = self._server.isConnected()
+        self.isConnected: bool = self._server.isConnected()
 
         # Register System Event functions
         self.event.on(self.COMMANDS.CONNECTED, self._onConnected)
@@ -160,14 +161,18 @@ class TCI(object):
         """
         status = self._server.isConnected()
         while True:
+            while self._sendTokens.isEmpty:
+                time.sleep(1)
+                
             if status != self._server.isConnected():
                 status=self._server.isConnected()
                 if not self._server.isConnected():
                     self.event.emit(self, self.COMMANDS.DISCONNECTED, "")   
                 
             if self._server.isConnected() and not self._sendQ.empty():
+                self._sendTokens.usetoken
                 self._server.send(self._sendQ.get())
-                time.sleep(1)
+                time.sleep(.1)
         
 
     def _login(self)->None:
@@ -289,6 +294,8 @@ class TCI(object):
             self.channels[message.channel]: MessageHandler.Channel  = MessageHandler.Channel()
         for key in message.tags:
             setattr(self.channels[message.channel].userState, key.replace('-','_'), message.tags.get(key))
+        if self.channels[message.channel].userState.mod:
+            self.channels[message.channel].tokenBucket.maxToken = 100 
         
     def _setGlobalUserSate(self, sender, message)->None:
         """[summary]
@@ -344,7 +351,7 @@ class TCI(object):
         :param message: [description]
         :type message: [type]
         """
-        if message.tags[self.COMMANDS.ROOMSTATE.SLOW] > 0:
+        if int(message.tags[self.COMMANDS.ROOMSTATE.SLOW]) > 0:
             self.event.emit(self, self.COMMANDS.ROOMSTATE.SLOW_ON, self.channels[message.channel])
         else:
             self.event.emit(self, self.COMMANDS.ROOMSTATE.SLOW_OFF, self.channels[message.channel])
