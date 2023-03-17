@@ -1,8 +1,8 @@
 from django.apps import apps
 from django.db.models import Model
 from random import choice
-from ..MessageHandler import Message
-from ..TwitchChatInterface import TCI
+from ..TwitchChatInterface.MessageHandler import Message
+from ..TwitchChatInterface.TwitchChatInterface import TCI
 from .commandBase import commandBase
 
 class command(commandBase):
@@ -20,15 +20,22 @@ class command(commandBase):
         Parse List
         $userid - Username in lower case
         $username - display Username as normal
-        $targetid - gtargets username in lower case
+        $targetid - targets username in lower case
         $targetname - target username displayed as is
         $randuserid - gets random user from chat
         $botname - displays bot's name
         $arg1-$arg9 - gets position of whats after command
         $math[] - !math[1+7*6]
-        $followage - gets months followed streamer
+        $followage - gets months followed streamer 'https://api.twitch.tv/helix/users/follows?to_id=23161357' this gets follwers of a person 
         """        
+        userid: str = self.message.username.lower()
+        username: str = self.message.username
+        botname: str = self.tci.globalUserState.display_name
+        args: list = []
+        for arg in self.message.text.split(" "):
+            args.append(arg)
         
+
         if not self._checkCommand(""):
             self._parsedCommand["command"] =""
         else:

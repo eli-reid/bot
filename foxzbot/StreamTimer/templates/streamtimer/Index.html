@@ -13,20 +13,26 @@
     $(document).ready(function () {
         document.getElementById("time").value = data["time"]
         document.getElementById("display").value = data["DisplayMsg"]
+        document.getElementById("ending").value = data["EndMsg"];
     });
 </script>
 
-<div>
+<div class="container form">
     <h1 style="text-align: center;">End of Stream Timer</h1>
-
         
     <form action="javascript:void(0);">
         <div class="p-2"><button onclick="openTimer()">view timer</button> </div>
         <div class="p-2">
             <input type="time" id="time" value="">
         </div>
+        
         <div class="p-2">
+            <div><label for="display">Display Message:</label></div>
             <input type="text" id="display" value="" >
+        </div>
+        <div class="p-2">
+            <div><label for="display">Ending Message:</label></div>
+            <input type="text" id="ending" value="" >
         </div>
 
         <div class="p-2">
@@ -40,7 +46,7 @@
     </form>
     <script>
         function openTimer() {
-          var myWindow = window.open("{% url 'StreamTimer.View' %} ", "", "width=500,height=30");
+          var myWindow = window.open(" {% url 'StreamTimer.View' 'edog' %} ", "", "width=500,height=30");
         }
         </script>
 </div>

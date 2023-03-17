@@ -1,4 +1,4 @@
-from .WebSocketServer import WebSocketServer
+from .WebSocketServer.WebSocketServer import WebSocketServer
 
 websocketServer = WebSocketServer()
 

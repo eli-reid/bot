@@ -1,6 +1,7 @@
 from typing import Any, Optional
 from django.apps import AppConfig, apps
 from django.db import models
+
 class StreamtimerConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
     name = 'StreamTimer'
@@ -17,15 +18,20 @@ class StreamtimerConfig(AppConfig):
         self.displayName = 'Stream Timer'
         self.settingsObj = apps.get_app_config('Home').get_model('Settings')
         self.load_default_settings()
+        import StreamTimer.middleware 
         return super().ready()
 
     def load_default_settings(self):
-        for setting in self._settings:
-            obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
-            
+        try: 
+            for setting in self._settings:
+                obj, created = self.settingsObj.objects.get_or_create(app=self.displayName, key=setting.get('key'), value=setting.get('value'), readOnly=setting.get('readOnly'), visible=setting.get('visible'))
+        except:
+            pass 
     def reset_default_settings(self):
-        for setting in self._settings:
-            update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
-            update["value"] = setting.get('value')
-            update.save()
-                      
+        try:
+            for setting in self._settings:
+                update = self.settingsObj.objects.get(app=self.displayName, key=setting.get('key'))
+                update["value"] = setting.get('value')
+                update.save()
+        except:
+            pass
