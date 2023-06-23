@@ -15,6 +15,8 @@ from Websock.middleware import StartWebsocketServer
 from django.urls import resolve
 from TwitchAPI.Twitch.oauth import twitchOauth
 
+
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'foxzbot.settings')
 application = get_asgi_application()
 StartWebsocketServer()
