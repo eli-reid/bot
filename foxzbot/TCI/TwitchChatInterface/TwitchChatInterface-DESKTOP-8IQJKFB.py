@@ -82,9 +82,15 @@ class TCI(object):
         self.event: EventHandler = EventHandler
         self.COMMANDS: MessageHandler.COMMANDS = self._messageHandler.COMMANDS
         self.startWithThread = threading.Thread(target=self.run, daemon=True).start
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+        self.channels: dict = {} 
+        self.globalUserState: MessageHandler.globalUSerState = MessageHandler.globalUSerState()
+        self.isConnected = self._server.isConnected()
+=======
         self.channels: dict[str, Channel] = {} 
         self.globalUserState: globalUSerState = globalUSerState()
         self.isConnected: bool = self._server.isConnected()
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
 
         # Register System Event functions
         self.event.on(self.COMMANDS.CONNECTED, self._onConnected)
@@ -104,6 +110,8 @@ class TCI(object):
         self._getMessagesTread = threading.Thread(target=self._getMsgs, name="getmsg", daemon=True) 
         self._threadEvent = threading.Event()
 
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+=======
     def updateSettings(self, settings: dict):
         self._channels = settings.get('channels')
         self._user = settings.get('user')
@@ -111,12 +119,17 @@ class TCI(object):
         self._caprequest = settings.get('caprequest')
         self._server =  IrcController(settings.get("server"),settings.get("port"))
 
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
     def run(self)->None:
         """
         TwitchChatInterface.start - starts send and recieve threads 
 
         """
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+        self._run =True
+=======
         self._run = True
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
         self._sendMessagesThread.start()
         self._getMessagesTread.start()  
 
@@ -131,8 +144,13 @@ class TCI(object):
     
     def connect(self):
         if not self._server.isConnected():
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+            self._server.connect()
+            self._login()
+=======
             self._login()
             self._server.connect()
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
 
     def _getMsgs(self)->None:
         """
@@ -161,18 +179,28 @@ class TCI(object):
         """
         status = self._server.isConnected()
         while True:
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+=======
             while self._sendTokens.isEmpty:
                 time.sleep(1)
                 
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
             if status != self._server.isConnected():
                 status=self._server.isConnected()
                 if not self._server.isConnected():
                     self.event.emit(self, self.COMMANDS.DISCONNECTED, "")   
                 
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+            if self._server.isConnected():
+                if not self._sendQ.empty():
+                    self._server.send(self._sendQ.get())
+                    time.sleep(1)
+=======
             if self._server.isConnected() and not self._sendQ.empty():
                 self._sendTokens.usetoken
                 self._server.send(self._sendQ.get())
                 time.sleep(.1)
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
         
 
     def _login(self)->None:
@@ -205,7 +233,11 @@ class TCI(object):
         :param message: irc message
         :type message: Message
         """
+<<<<<<< HEAD:foxzbot/TCI/TwitchChatInterface.py
+        pass
+=======
         self.isConnected = False
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588:foxzbot/TCI/TwitchChatInterface/TwitchChatInterface.py
 
     def _onInvalidLogin(self, sender: object, message)->None:
         print(f"LOGIN FAIL!: {message}")
@@ -310,7 +342,6 @@ class TCI(object):
         
     def _getMods(self, channel: str)->None:
         """
-        NO LONGR WORKS
         getMods [summary]
         
         :param channel: [description]

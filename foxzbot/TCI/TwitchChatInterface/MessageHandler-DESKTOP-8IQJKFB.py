@@ -643,7 +643,6 @@ class MessageHandler():
             :rtype: Message
         """
         message = Message()
-        print(data)
         if not isinstance(data, str):
             raise TypeError("MessageHandler._parse requires input of type str")
         message.raw = data      
@@ -694,7 +693,7 @@ class MessageHandler():
             #return None # invalid message form
 
         message.command = data[position:nextspace]
-     
+
         position = nextspace + 1
 
         while data[position] == " ":

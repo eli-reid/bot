@@ -11,11 +11,9 @@ from .Builtins.timerCommands import timer
 
 
 def parser(tci: TCI, message: Message):
-    print(message.raw)
     if message.text.startswith("!"):
         commandText = message.text.split(" ")[0][1:]
-        if commandText in globals():
+        if commandText not in globals():
+            command(tci,message)
+        else:
             globals()[commandText](tci, message)
-    else:
-        command(tci, message).run(message.text.split(" ")[0])
-       
