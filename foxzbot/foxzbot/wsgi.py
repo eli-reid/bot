@@ -14,4 +14,10 @@ from django.core.wsgi import get_wsgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'foxzbot.settings')
 application = get_wsgi_application()
 StartWebsocketServer()
+<<<<<<< HEAD
+#StartTciClient()
+
+
+=======
 StartTciClient()
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
