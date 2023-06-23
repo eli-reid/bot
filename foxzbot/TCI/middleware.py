@@ -40,6 +40,11 @@ def loadTCISettings():
 
     
 def StartTciClient():
+<<<<<<< HEAD
+  tci.onConnected(handleConnect)
+  tci.onMessage(handleMessage)
+  tci.onDisconnected(handleDisconnect)
+=======
   
   #setup websocket chat server command events
   Websock = apps.get_app_config("Websock")
@@ -53,5 +58,10 @@ def StartTciClient():
   tci.onDisconnected(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onGlobalUserState(lambda sender, obj: asyncio.run(Websock.broadcast(getChatStatusEventString(), "/chatstatus")))
   tci.onMessage(parser)
+<<<<<<< HEAD
   tci.onWhisper(parser)
+=======
+  
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
+>>>>>>> 725bdd89ad1ba83f2cc30432d96ece2afaec66c5
   tci.run()

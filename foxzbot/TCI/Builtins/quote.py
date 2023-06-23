@@ -15,7 +15,15 @@ class quote(commandBase):
             if self.data is not None and self.data.isnumeric() and int(self.data) in self._ids:
                 quoteobj = self._quotesObj.objects.get(id=self.data)
             else:
+<<<<<<< HEAD
                 quoteobj = self._quotesObj.objects.get(id=choice(self._ids))
+=======
+                quoteobj = self.quotesObj.objects.get(id=choice(self.ids))
+<<<<<<< HEAD
+=======
+             
+>>>>>>> 1d19cf16f809cb42948321cb312a34d0bb309588
+>>>>>>> 725bdd89ad1ba83f2cc30432d96ece2afaec66c5
             self.tci.sendMessage(self.message.channel,f"id: {quoteobj.id}, { quoteobj.quote}")
         except:
             pass
